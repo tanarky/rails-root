@@ -8,6 +8,7 @@ dir = File.dirname(__FILE__)
 # capistrano
 
 # questions
+gem 'omniauth'
 use_devise = if yes?('Use devise?')
                gem 'devise'
                gem 'devise-i18n'
@@ -17,6 +18,7 @@ use_devise = if yes?('Use devise?')
                gem 'omniauth-yahoojp'
                true
              else
+               gem "omniauth-google-oauth2"
                false
              end
 
@@ -70,6 +72,10 @@ Bundler.with_clean_env do
       #file 'app/controllers/users/registrations_controller.rb',
       #     File.open(dir+"/app/controllers/users/registrations_controller.rb").read
       #route 'devise_for :users, controllers: { registrations: "users/registrations" }'
+  else
+    if !File.exists?("config/initializers/omniauth.rb")
+      file 'config/initializers/omniauth.rb',
+           File.open(dir+"/config/initializers/omniauth.rb").read
     end
   end
 
